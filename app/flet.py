@@ -1,4 +1,6 @@
 from flet import *
+from flet.padding import Padding
+
 import flet.navigation_rail as rail
 import flet.floating_action_button as Floating
 import flet.icons as icons

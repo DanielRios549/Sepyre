@@ -11,24 +11,6 @@ class Main():
 
     def __post_init__(self):
         self.page.title = 'Sepyre'
-        self.page.appbar = AppBar(
-            leading=app.flet.IconButton(
-                bgcolor=colors.SURFACE_VARIANT,
-                icon=icons.MENU
-            ),
-            leading_width=40,
-            title=Text("Library"),
-            center_title=False,
-            bgcolor=colors.SURFACE_VARIANT,
-            actions=[
-                IconButton(icons.WB_SUNNY_OUTLINED),
-                PopupMenuButton(
-                    items=[
-                        PopupMenuItem(text="Autoplay", on_click=self.item_clicked)
-                    ]
-                ),
-            ],
-        )
 
         self.tabs: Tabs
         self.songs = app.pages.Songs(self.main, self.page)
@@ -47,13 +29,10 @@ class Main():
             content=self.playlists.show()
         )
 
+    def show(self):
         self.page.add(
             self.showTabs()
         )
-
-    def item_clicked(self, event):  # : event.ControlEvent):
-        event.control.checked = not event.control.checked
-        self.page.update()
 
     def editSongs(self):
         index = self.tabs.selected_index
