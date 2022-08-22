@@ -7,7 +7,6 @@ import app
 @dataclass()
 class Playlists():
     main: Sepyre
-    page: app.flet.Page
 
     def __post_init__(self):
         self.items: Text
@@ -18,6 +17,6 @@ class Playlists():
 
     def showEdit(self):
         self.items = Text("Updated")
-        self.page.update()
+        self.main.page.update()
 
         return self.items

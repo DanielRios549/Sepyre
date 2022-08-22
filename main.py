@@ -29,14 +29,34 @@ class Sepyre():
         self.page.padding = flet.Padding(10, 0, 10, 0)
         self.page.horizontal_alignment = 'center'
 
-        self.current = pages.Main(self, self.page)
+        self.current = pages.Main(self)
 
-        self.page.appbar = self.appBar()
+        self.page.appbar = self.appBar('Library')
         self.page.update()
 
         self.current.show()
+        self.page.on_route_change = self.routeChange
 
-    def appBar(self):
+    def routeChange(self, change):
+        path: str = change.route
+        name = path.split('/')[1]
+        route = name if name != '' else 'main'
+
+        self.current = self.routes(route)
+        self.page.clean()
+
+        self.current.show()
+        self.page.update()
+
+    def routes(self, route: str):
+        routes = {
+            'main': pages.Main(self),
+            'song': pages.Song(self),
+        }  # type: ignore
+
+        return routes[route]
+
+    def appBar(self, title: str = 'Sepyre'):
         width = 50
 
         return flet.AppBar(
@@ -47,7 +67,7 @@ class Sepyre():
                 bgcolor=flet.colors.SURFACE_VARIANT,
                 icon=flet.icons.MENU
             ),
-            title=flet.Text("Library"),
+            title=flet.TextButton(title, on_click=lambda x: self.page.go('/')),
             center_title=False,
             actions=[
                 flet.IconButton(flet.icons.WB_SUNNY_OUTLINED, width=width),
@@ -62,4 +82,4 @@ class Sepyre():
 
 
 if __name__ == "__main__":
-    flet.app(port=5500, target=Sepyre)  # , view=app.flet.WEB_BROWSER)
+    flet.app(port=5500, target=Sepyre, view=None)

@@ -7,7 +7,6 @@ import app
 @dataclass()
 class Songs():
     main: Sepyre
-    page: app.flet.Page
 
     def __post_init__(self):
         self.items = ListView(
@@ -53,12 +52,14 @@ class Songs():
 
     def songOpen(self, event: event.ControlEvent):
         song = event.data
+        self.main.page.go(f'/song/{song}')
+        self.main.page.update()
 
     def songRename(self, event: event.ControlEvent):
         print(f'Song Rename: {event.data}')
 
     def showEdit(self):
         self.items = Text("Updated")
-        self.page.update()
+        self.main.page.update()
 
         return self.items

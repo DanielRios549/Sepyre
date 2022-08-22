@@ -7,14 +7,13 @@ import app
 @dataclass()
 class Main():
     main: Sepyre
-    page: app.flet.Page
 
     def __post_init__(self):
-        self.page.title = 'Sepyre'
+        self.main.page.title = 'Sepyre'
 
         self.tabs: Tabs
-        self.songs = app.pages.Songs(self.main, self.page)
-        self.playlists = app.pages.Playlists(self.main, self.page)
+        self.songs = app.pages.Songs(self.main)
+        self.playlists = app.pages.Playlists(self.main)
 
         self.tabIndexes: list[app.pages.Page] = [  # type: ignore
             self.songs, self.playlists
@@ -30,14 +29,14 @@ class Main():
         )
 
     def show(self):
-        self.page.add(
+        self.main.page.add(
             self.showTabs()
         )
 
     def editSongs(self):
         index = self.tabs.selected_index
         self.tabs.tabs[index].content = self.tabIndexes[index].showEdit()
-        self.page.update()
+        self.main.page.update()
 
     def showTabs(self):
         self.tabs = Tabs(
