@@ -22,6 +22,7 @@ class Sepyre():
         else:
             self.folder = self.home.joinpath('Sepyre')
 
+        self.layout = app.layouts.Main(self)
         self.config = app.Config(self)
         self.preLoad()
 
@@ -55,34 +56,6 @@ class Sepyre():
 
         return routes[route]
 
-    def appBar(self, title: str = 'Sepyre'):
-        width = 50
-
-        return app.flet.AppBar(
-            toolbar_height=width,
-            bgcolor=app.flet.colors.SURFACE_VARIANT,
-            leading_width=width,
-            leading=app.flet.IconButton(
-                bgcolor=app.flet.colors.SURFACE_VARIANT,
-                icon=app.flet.icons.MENU
-            ),
-            title=app.flet.TextButton(
-                title,
-                scale=1.5,
-                on_click=lambda x: self.page.go('/')
-            ),
-            center_title=False,
-            actions=[
-                app.flet.IconButton(app.flet.icons.WB_SUNNY_OUTLINED, width=width),
-                app.flet.PopupMenuButton(
-                    width=width,
-                    items=[
-                        app.flet.PopupMenuItem(text="Autoplay")  # , on_click=self.item_clicked)
-                    ]
-                ),
-            ],
-        )
-
 
 if __name__ == "__main__":
-    app.flet.app(port=5500, target=Sepyre, view=None)
+    app.flet.app(port=5500, target=Sepyre)

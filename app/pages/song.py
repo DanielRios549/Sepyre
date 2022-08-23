@@ -20,7 +20,7 @@ class Song():
             Text(self.name)
         )
 
-        self.main.page.appbar = self.main.appBar(f'Library > Song')
+        self.main.page.appbar = self.main.layout.appBar(f'Library > Song')
 
         self.mixer()
         self.main.page.update()

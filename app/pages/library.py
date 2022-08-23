@@ -33,7 +33,7 @@ class Main():
             self.showTabs()
         )
 
-        self.main.page.appbar = self.main.appBar('Library')
+        self.main.page.appbar = self.main.layout.appBar('Library')
         self.main.page.update()
 
     def editSongs(self):
