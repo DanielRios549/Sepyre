@@ -2,14 +2,14 @@ from dataclasses import dataclass
 from pathlib import Path
 from os import environ
 from dotenv import load_dotenv
-from app import flet, pages
+import app
 
 load_dotenv()
 
 
 @dataclass()
 class Sepyre():
-    page: flet.Page
+    page: app.flet.Page
 
     def __post_init__(self):
         self.home = Path.home()
@@ -22,22 +22,21 @@ class Sepyre():
         else:
             self.folder = self.home.joinpath('Sepyre')
 
+        self.config = app.Config(self)
         self.preLoad()
 
     def preLoad(self):
         self.page.window_width = 400
-        self.page.padding = flet.Padding(10, 0, 10, 0)
+        self.page.padding = app.flet.Padding(10, 0, 10, 0)
         self.page.horizontal_alignment = 'center'
 
-        self.current = pages.Main(self)
-
-        self.page.appbar = self.appBar('Library')
-        self.page.update()
+        self.current = app.pages.Main(self)
 
         self.current.show()
         self.page.on_route_change = self.routeChange
 
     def routeChange(self, change):
+        self.page.appbar = None
         path: str = change.route
         name = path.split('/')[1]
         route = name if name != '' else 'main'
@@ -48,10 +47,10 @@ class Sepyre():
         self.current.show()
         self.page.update()
 
-    def routes(self, route: str):
+    def routes(self, route: str):  # -> app.pages.Page:
         routes = {
-            'main': pages.Main(self),
-            'song': pages.Song(self),
+            'main': app.pages.Main(self),
+            'song': app.pages.Song(self),
         }  # type: ignore
 
         return routes[route]
@@ -59,22 +58,26 @@ class Sepyre():
     def appBar(self, title: str = 'Sepyre'):
         width = 50
 
-        return flet.AppBar(
+        return app.flet.AppBar(
             toolbar_height=width,
-            bgcolor=flet.colors.SURFACE_VARIANT,
+            bgcolor=app.flet.colors.SURFACE_VARIANT,
             leading_width=width,
-            leading=flet.IconButton(
-                bgcolor=flet.colors.SURFACE_VARIANT,
-                icon=flet.icons.MENU
+            leading=app.flet.IconButton(
+                bgcolor=app.flet.colors.SURFACE_VARIANT,
+                icon=app.flet.icons.MENU
             ),
-            title=flet.TextButton(title, on_click=lambda x: self.page.go('/')),
+            title=app.flet.TextButton(
+                title,
+                scale=1.5,
+                on_click=lambda x: self.page.go('/')
+            ),
             center_title=False,
             actions=[
-                flet.IconButton(flet.icons.WB_SUNNY_OUTLINED, width=width),
-                flet.PopupMenuButton(
+                app.flet.IconButton(app.flet.icons.WB_SUNNY_OUTLINED, width=width),
+                app.flet.PopupMenuButton(
                     width=width,
                     items=[
-                        flet.PopupMenuItem(text="Autoplay")  # , on_click=self.item_clicked)
+                        app.flet.PopupMenuItem(text="Autoplay")  # , on_click=self.item_clicked)
                     ]
                 ),
             ],
@@ -82,4 +85,4 @@ class Sepyre():
 
 
 if __name__ == "__main__":
-    flet.app(port=5500, target=Sepyre, view=None)
+    app.flet.app(port=5500, target=Sepyre, view=None)

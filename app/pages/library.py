@@ -33,6 +33,9 @@ class Main():
             self.showTabs()
         )
 
+        self.main.page.appbar = self.main.appBar('Library')
+        self.main.page.update()
+
     def editSongs(self):
         index = self.tabs.selected_index
         self.tabs.tabs[index].content = self.tabIndexes[index].showEdit()
