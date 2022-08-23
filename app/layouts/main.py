@@ -29,12 +29,16 @@ class Main():
 
         self.main.page.add(
             Row(
-                [body],
+                [
+                    self.navRail(page),
+                    VerticalDivider(width=1),
+                    Column(
+                        [body],
+                        alignment="start",
+                        expand=True
+                    ),
+                ],
                 expand=True,
-            ),
-            Row(
-                [self.navRail(page)],
-                expand=True
             )
         )
         self.main.page.update()
