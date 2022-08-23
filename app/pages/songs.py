@@ -17,7 +17,7 @@ class Songs():
         )
 
     def show(self):
-        folder = self.main.folder.joinpath('separation')
+        folder = self.main.config.separation
 
         if folder.exists() is False:
             folder.mkdir(0o775, False, False)
