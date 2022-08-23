@@ -29,11 +29,7 @@ class Main():
         )
 
     def show(self):
-        self.main.page.add(
-            self.showTabs()
-        )
-
-        self.main.page.appbar = self.main.layout.appBar('Library')
+        self.main.layout.show(self.showTabs(), 'Library', 0)
         self.main.page.update()
 
     def editSongs(self):

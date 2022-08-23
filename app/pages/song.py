@@ -16,11 +16,7 @@ class Song():
         self.route: str = self.main.page.route
         self.name = self.route.split('/')[2]
 
-        self.main.page.add(
-            Text(self.name)
-        )
-
-        self.main.page.appbar = self.main.layout.appBar(f'Library > Song')
+        self.main.layout.show(Text(self.name), f'Library > Song')
 
         self.mixer()
         self.main.page.update()

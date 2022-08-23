@@ -8,7 +8,36 @@ class Main():
     main: Sepyre
 
     def __post_init__(self):
-        pass
+        self.pages = [
+            {
+                'label': 'Library',
+                'route': '/main',
+                'icon': icons.HOME_OUTLINED,
+                'selected_icon': icons.HOME
+            },
+            {
+                'label': 'Settings',
+                'route': '/settings',
+                'icon': icons.SETTINGS_OUTLINED,
+                'selected_icon': icons.SETTINGS
+            }
+        ]
+
+    def show(self, body, name: str, page: int = None):   # type: ignore
+        self.main.page.clean()
+        self.main.page.appbar = self.appBar(name)
+
+        self.main.page.add(
+            Row(
+                [body],
+                expand=True,
+            ),
+            Row(
+                [self.navRail(page)],
+                expand=True
+            )
+        )
+        self.main.page.update()
 
     def appBar(self, title: str = 'Sepyre'):
         width = 50
@@ -16,11 +45,6 @@ class Main():
         return AppBar(
             toolbar_height=width,
             bgcolor=colors.SURFACE_VARIANT,
-            leading_width=width,
-            leading=IconButton(
-                bgcolor=colors.SURFACE_VARIANT,
-                icon=icons.MENU
-            ),
             title=TextButton(
                 title,
                 scale=1.5,
@@ -38,29 +62,26 @@ class Main():
             ],
         )
 
-    def navRail(self):
+    def navRail(self, selected: int = None):  # type: ignore
+        destinations = [
+            NavigationRailDestination(
+                label=page['label'],
+                icon=page['icon'],
+                selected_icon=page['selected_icon']
+            )
+            for page in self.pages
+        ]
+
         return NavigationRail(
-            selected_index=0,
+            selected_index=selected,
             label_type="all",
-            # extended=True,
-            min_width=100,
-            min_extended_width=400,
-            leading=FloatingActionButton(icon=icons.CREATE, text="Add"),
+            extended=True,
+            # leading=FloatingActionButton(icon=icons.CREATE, text="Add"),
             group_alignment=-0.9,
-            destinations=[
-                NavigationRailDestination(
-                    icon=icons.FAVORITE_BORDER, selected_icon=icons.FAVORITE, label="First"
-                ),
-                NavigationRailDestination(
-                    icon_content=Icon(icons.BOOKMARK_BORDER),
-                    selected_icon_content=Icon(icons.BOOKMARK),
-                    label="Second",
-                ),
-                NavigationRailDestination(
-                    icon=icons.SETTINGS_OUTLINED,
-                    selected_icon_content=Icon(icons.SETTINGS),
-                    label_content=Text("Settings"),
-                ),
-            ],
-            on_change=lambda e: print("Selected destination:", e.control.selected_index),
+            destinations=[*destinations],
+            on_change=lambda event: self.changePage(event.control.selected_index)
         )
+
+    def changePage(self, index: int):
+        self.main.page.route = self.pages[index]['route']
+        self.main.page.update()

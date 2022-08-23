@@ -52,6 +52,7 @@ class Sepyre():
         routes = {
             'main': app.pages.Main(self),
             'song': app.pages.Song(self),
+            'settings': app.pages.Settings(self)
         }  # type: ignore
 
         return routes[route]
