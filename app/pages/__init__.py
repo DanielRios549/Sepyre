@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from main import Sepyre
+from app.pages.tabs.songs import Songs
+from app.pages.tabs.playlists import Playlists
 from app.pages.library import Main
-from app.pages.songs import Songs
 from app.pages.song import Song
-from app.pages.playlists import Playlists
 from app import flet
 
 
