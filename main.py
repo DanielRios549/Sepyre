@@ -14,6 +14,7 @@ class Sepyre():
     def __post_init__(self):
         self.home = Path.home()
         self.env = environ['MODE']
+        self.width = self.page.width
         self.folder: Path
 
         if self.env[:3] == 'dev':
@@ -35,10 +36,16 @@ class Sepyre():
 
         self.current.show()
         self.page.on_route_change = self.routeChange
+        self.page.on_resize = self.widthChange
 
-    def routeChange(self, change):
+    def widthChange(self, event: app.flet.event.ControlEvent):
+        self.width = int(event.data.split(',')[0])
+        self.page.clean()
+        self.current.show()
+
+    def routeChange(self, event):  # RouteChangeEvent):
         self.page.appbar = None
-        path: str = change.route
+        path: str = event.route
         name = path.split('/')[1]
         route = name if name != '' else 'main'
 
@@ -59,4 +66,4 @@ class Sepyre():
 
 
 if __name__ == "__main__":
-    app.flet.app(port=5500, target=Sepyre)
+    app.flet.app(port=5500, target=Sepyre, view=None)

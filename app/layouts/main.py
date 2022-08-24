@@ -27,20 +27,26 @@ class Main():
         self.main.page.clean()
         self.main.page.appbar = self.appBar(name)
 
-        self.main.page.add(
-            Row(
-                [
-                    self.navRail(page),
-                    VerticalDivider(width=1),
-                    Column(
-                        [body],
-                        alignment="start",
-                        expand=True
-                    ),
-                ],
-                expand=True,
+        if self.main.width >= 650:
+            self.main.page.add(
+                Row(
+                    [
+                        self.navRail(page),
+                        VerticalDivider(width=1),
+                        Column(
+                            [body],
+                            alignment="start",
+                            expand=True
+                        ),
+                    ],
+                    expand=True,
+                )
             )
-        )
+        else:
+            self.main.page.add(
+                body
+            )
+
         self.main.page.update()
 
     def appBar(self, title: str = 'Sepyre'):
