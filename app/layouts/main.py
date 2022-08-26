@@ -62,7 +62,7 @@ class Main():
             ),
             center_title=False,
             actions=[
-                IconButton(icons.WB_SUNNY_OUTLINED, width=width),
+                IconButton(icons.WB_SUNNY_OUTLINED, width=width, on_click=self.changeTheme),
                 PopupMenuButton(
                     width=width,
                     items=[
@@ -94,4 +94,15 @@ class Main():
 
     def changePage(self, index: int):
         self.main.page.route = self.pages[index]['route']
+        self.main.page.update()
+
+    def changeTheme(self, event: event.ControlEvent):
+        theme = 'light'
+
+        if self.main.page.theme_mode == 'light':
+            theme = 'dark'
+
+        self.main.config.update('app', 'theme', theme)
+
+        self.main.page.theme_mode = theme
         self.main.page.update()
