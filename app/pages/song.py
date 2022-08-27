@@ -1,12 +1,11 @@
 from dataclasses import dataclass
-from genericpath import isfile
 from main import Sepyre
 from app.flet import *
 import app
 
 
 @dataclass()
-class Song():
+class Song(app.types.Page):
     main: Sepyre
 
     def __post_init__(self):
@@ -16,16 +15,25 @@ class Song():
         self.route: str = self.main.page.route
         self.name = self.route.split('/')[2]
 
-        self.main.layout.show(Text(self.name), f'Library > Song')
+        self.main.layout.show(
+            self.mixer(),
+            f'Library > Song'
+        )
 
-        self.mixer()
         self.main.page.update()
 
     def mixer(self):
         folder = self.main.config.separation.joinpath(self.name)
-        files = []
+        files = ListView(
+            expand=1,
+            spacing=10,
+            padding=20,
+            auto_scroll=False
+        )
 
         if folder.exists() is True:
             for track in folder.iterdir():
                 if track.is_file() and str(track).endswith('.wav'):
-                    files.append(track)
+                    files.controls.append(Text(track.name))
+
+        return files

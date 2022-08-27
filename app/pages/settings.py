@@ -5,7 +5,7 @@ import app
 
 
 @dataclass()
-class Settings():
+class Settings(app.types.Page):
     main: Sepyre
 
     def __post_init__(self):

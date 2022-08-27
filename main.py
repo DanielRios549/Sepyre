@@ -39,7 +39,7 @@ class Sepyre():
         self.page.padding = app.flet.Padding(10, 0, 10, 0)
         self.page.horizontal_alignment = 'center'
 
-        self.current = app.pages.Main(self)
+        self.current: app.types.Page = app.pages.Main(self)
         self.page.theme_mode = self.config.get('app', 'theme', 'dark')
         # self.page.theme = app.flet.Theme(
         #     brightness='dark',
@@ -63,20 +63,11 @@ class Sepyre():
         name = path.split('/')[1]
         route = name if name != '' else 'main'
 
-        self.current = self.views(route)
+        self.current = app.pages.get(self, route)
         self.page.clean()
 
         self.current.show()
         self.page.update()
-
-    def views(self, route: str):  # -> app.pages.Page:
-        routes = {
-            'main': app.pages.Main(self),
-            'song': app.pages.Song(self),
-            'settings': app.pages.Settings(self)
-        }  # type: ignore
-
-        return routes[route]
 
 
 if __name__ == "__main__":
