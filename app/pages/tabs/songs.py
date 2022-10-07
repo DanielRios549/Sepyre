@@ -51,12 +51,11 @@ class Songs():
         return self.items
 
     def songOpen(self, event: event.ControlEvent):
-        song = event.data
-        self.main.page.go(f'/song/{song}')
+        self.main.page.go(f'/song/{event.control.data}')
         self.main.page.update()
 
     def songRename(self, event: event.ControlEvent):
-        print(f'Song Rename: {event.data}')
+        print(f'Song Rename: {event.control.data}')
 
     def showEdit(self):
         self.items = Text("Updated")

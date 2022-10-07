@@ -23,7 +23,8 @@ class Main():
             }
         ]
 
-    def show(self, body, name: str, page: int = None):   # type: ignore
+    # type: ignore
+    def show(self, name: str, body: 'list[Control]', page: int = None):
         self.main.page.clean()
         self.main.page.appbar = self.appBar(name)
 
@@ -34,8 +35,8 @@ class Main():
                         self.navRail(page),
                         VerticalDivider(width=1),
                         Column(
-                            [body],
-                            alignment="start",
+                            controls=[item for item in body],
+                            alignment='start',
                             expand=True
                         ),
                     ],
@@ -43,9 +44,7 @@ class Main():
                 )
             )
         else:
-            self.main.page.add(
-                body
-            )
+            [self.main.page.add(item) for item in body]
 
         self.main.page.update()
 
@@ -62,7 +61,11 @@ class Main():
             ),
             center_title=False,
             actions=[
-                IconButton(icons.WB_SUNNY_OUTLINED, width=width, on_click=self.changeTheme),
+                IconButton(
+                    icons.WB_SUNNY_OUTLINED,
+                    width=width,
+                    on_click=self.changeTheme
+                ),
                 PopupMenuButton(
                     width=width,
                     items=[
@@ -89,7 +92,9 @@ class Main():
             # leading=FloatingActionButton(icon=icons.CREATE, text="Add"),
             group_alignment=-0.9,
             destinations=[*destinations],
-            on_change=lambda event: self.changePage(event.control.selected_index)
+            on_change=lambda event: self.changePage(
+                event.control.selected_index
+            )
         )
 
     def changePage(self, index: int):

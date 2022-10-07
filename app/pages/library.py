@@ -29,13 +29,19 @@ class Main(app.types.Page):
         )
 
     def show(self):
-        self.main.layout.show(self.showTabs(), 'Library', 0)
+        self.main.layout.show(
+            page=0,
+            name='Library',
+            body=[
+                self.showTabs()
+            ]
+        )
         self.main.page.update()
 
-    def editSongs(self):
-        index = self.tabs.selected_index
-        self.tabs.tabs[index].content = self.tabIndexes[index].showEdit()
-        self.main.page.update()
+    # def editSongs(self):
+    #     index = self.tabs.selected_index
+    #     self.tabs.tabs[index].content = self.tabIndexes[index].showEdit()
+    #     self.main.page.update()
 
     def showTabs(self):
         self.tabs = Tabs(

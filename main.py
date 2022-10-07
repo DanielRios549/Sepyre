@@ -57,7 +57,7 @@ class Sepyre():
         self.page.clean()
         self.current.show()
 
-    def routeChange(self, event):  # RouteChangeEvent):
+    def routeChange(self, event: app.flet.RouteChangeEvent):
         self.page.appbar = None
         path: str = event.route
         name = path.split('/')[1]
@@ -72,3 +72,4 @@ class Sepyre():
 
 if __name__ == "__main__":
     app.flet.app(port=5500, target=Sepyre, view=None)
+    # app.flet.app(port=5500, target=Sepyre)
