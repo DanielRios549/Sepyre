@@ -12,5 +12,11 @@ class Settings(app.types.Page):
         pass
 
     def show(self):
-        self.main.layout.show(Text('Settings Page'), f'Settings', 1)
+        self.main.layout.show(
+            page=1,
+            name=f'Settings',
+            body=[
+                Text('Settings Page')
+            ]
+        )
         self.main.page.update()
