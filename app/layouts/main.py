@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from main import Sepyre
 from app.flet import *
+import app
 
 
 @dataclass()
@@ -8,7 +9,10 @@ class Main():
     main: Sepyre
 
     def __post_init__(self):
-        self.pages = [
+        self.nav = Ref[Row]()
+        self.content = Ref[Column]()
+
+        self.menu: list[app.types.Menu] = [
             {
                 'label': 'Library',
                 'route': '/main',
@@ -23,28 +27,28 @@ class Main():
             }
         ]
 
-    # type: ignore
-    def show(self, name: str, body: 'list[Control]', page: int = None):
-        self.main.page.clean()
+        self.main.page.add(
+            Row(
+                [
+                    self.navRail(),
+                    VerticalDivider(width=1),
+                    Column(ref=self.content, expand=True)
+                ],
+                expand=True,
+            )
+        )
+
+    def show(self, name: str, body: 'list[Control]', page: int = None):  # type: ignore
+        self.content.current.clean()
         self.main.page.appbar = self.appBar(name)
 
-        if self.main.width >= 650:
-            self.main.page.add(
-                Row(
-                    [
-                        self.navRail(page),
-                        VerticalDivider(width=1),
-                        Column(
-                            controls=[item for item in body],
-                            alignment='start',
-                            expand=True
-                        ),
-                    ],
-                    expand=True,
-                )
+        self.content.current.controls.append(
+            Column(
+                controls=[item for item in body],
+                alignment='start',
+                expand=True
             )
-        else:
-            [self.main.page.add(item) for item in body]
+        )
 
         self.main.page.update()
 
@@ -78,14 +82,19 @@ class Main():
     def navRail(self, selected: int = None):  # type: ignore
         destinations = [
             NavigationRailDestination(
-                label=page['label'],
-                icon=page['icon'],
-                selected_icon=page['selected_icon']
+                label=menu['label'],
+                icon=menu['icon'],
+                selected_icon=menu['selected_icon']
             )
-            for page in self.pages
+            for menu in self.menu
         ]
 
+        # route = self.main.page.route or 0
+        # selected = [index for index, menu in enumerate(self.menu) if menu['route'] == self.menu.index('')][0]
+        # print(self.menu.index('route'))
+
         return NavigationRail(
+            # TODO: Fix Selected Index
             selected_index=selected,
             label_type="all",
             extended=True,
@@ -98,7 +107,7 @@ class Main():
         )
 
     def changePage(self, index: int):
-        self.main.page.route = self.pages[index]['route']
+        self.main.page.route = self.menu[index]['route']
         self.main.page.update()
 
     def changeTheme(self, event: event.ControlEvent):

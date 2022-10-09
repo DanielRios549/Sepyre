@@ -19,21 +19,26 @@ class Main(app.types.Page):
             self.songs, self.playlists
         ]
 
-        self.tab1 = Tab(
-            text='Songs',
-            content=self.songs.show()
-        ),
-        self.tab2 = Tab(
-            text='Playlist',
-            content=self.playlists.show()
-        )
-
     def show(self):
         self.main.layout.show(
             page=0,
             name='Library',
             body=[
-                self.showTabs()
+                Tabs(
+                    selected_index=0,
+                    animation_duration=300,
+                    expand=True,
+                    tabs=[
+                        Tab(
+                            text='Songs',
+                            content=self.songs.show()
+                        ),
+                        Tab(
+                            text='Playlist',
+                            content=self.playlists.show()
+                        )
+                    ],
+                )
             ]
         )
         self.main.page.update()
@@ -42,16 +47,3 @@ class Main(app.types.Page):
     #     index = self.tabs.selected_index
     #     self.tabs.tabs[index].content = self.tabIndexes[index].showEdit()
     #     self.main.page.update()
-
-    def showTabs(self):
-        self.tabs = Tabs(
-            selected_index=0,
-            animation_duration=300,
-            tabs=[
-                self.tab1[0],
-                self.tab2
-            ],
-            expand=1,
-        )
-
-        return self.tabs

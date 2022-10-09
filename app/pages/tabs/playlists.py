@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from main import Sepyre
 from app.flet import *
-import app
 
 
 @dataclass()

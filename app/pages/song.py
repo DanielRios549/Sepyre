@@ -55,7 +55,7 @@ class Song(app.types.Page):
     def mixer(self) -> ListView:
         folder = self.main.config.separation.joinpath(self.name)
         files = ListView(
-            expand=1,
+            expand=True,
             spacing=10,
             padding=20,
             auto_scroll=False

@@ -24,7 +24,7 @@ class Sepyre():
         if self.env[:3] == 'dev' and environ.get('FOLDER') is not None:
             self.folder = Path(environ['FOLDER'])
 
-        self.options = {
+        self.options: app.types.Options = {
             'path': self.path,
             'folder': self.folder,
             'file': self.file
@@ -40,7 +40,7 @@ class Sepyre():
         self.page.horizontal_alignment = 'center'
 
         self.current: app.types.Page = app.pages.Main(self)
-        self.page.theme_mode = self.config.get('app', 'theme', 'dark')
+        self.page.theme_mode = self.config.get('app', 'theme', 'dark')  # type: ignore
         # self.page.theme = app.flet.Theme(
         #     brightness='dark',
         #     color_scheme_seed='green'
@@ -48,7 +48,7 @@ class Sepyre():
 
         self.current.show()
         self.page.on_route_change = self.routeChange
-        self.page.on_resize = self.widthChange
+        # self.page.on_resize = self.widthChange
 
     def widthChange(self, event: app.flet.event.ControlEvent):
         newWidth = event.data.split(',')[0]
@@ -58,13 +58,14 @@ class Sepyre():
         self.current.show()
 
     def routeChange(self, event: app.flet.RouteChangeEvent):
+        # TODO: Stop Recreating AppBar every Route change
         self.page.appbar = None
         path: str = event.route
         name = path.split('/')[1]
         route = name if name != '' else 'main'
 
         self.current = app.pages.get(self, route)
-        self.page.clean()
+        self.layout.content.current.clean()
 
         self.current.show()
         self.page.update()

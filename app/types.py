@@ -1,5 +1,6 @@
 from dataclasses import dataclass
-from typing import Any
+from pathlib import Path
+from typing import TypedDict
 from main import Sepyre
 
 
@@ -9,3 +10,16 @@ class Page():
 
     def show(self):
         pass
+
+
+class Options(TypedDict):
+    path: str
+    folder: Path
+    file: str
+
+
+class Menu(TypedDict):
+    label: str
+    route: str
+    icon: str
+    selected_icon: str
