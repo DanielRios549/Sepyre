@@ -5,3 +5,4 @@ import app.layouts as layouts
 import app.pages as pages
 
 from app.config import Config
+from app.player import Player

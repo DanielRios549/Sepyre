@@ -96,10 +96,10 @@ class Main():
         return NavigationRail(
             # TODO: Fix Selected Index
             selected_index=selected,
-            label_type="all",
+            min_extended_width=300,
             extended=True,
             # leading=FloatingActionButton(icon=icons.CREATE, text="Add"),
-            group_alignment=-0.9,
+            trailing=self.main.player.showCard(),
             destinations=[*destinations],
             on_change=lambda event: self.changePage(
                 event.control.selected_index

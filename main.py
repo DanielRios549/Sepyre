@@ -30,8 +30,10 @@ class Sepyre():
             'file': self.file
         }
 
+        self.player = app.Player(self)
         self.layout = app.layouts.Main(self)
         self.config = app.Config(self)
+
         self.preLoad()
 
     def preLoad(self):
