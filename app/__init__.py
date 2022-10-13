@@ -1,4 +1,5 @@
 import app.flet as flet
+import app.forms as forms
 import app.types as types
 import app.parser as parser
 import app.layouts as layouts

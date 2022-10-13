@@ -11,3 +11,4 @@ import flet.animation as animation
 import flet.alert_dialog as alert
 import flet.control_event as event
 import flet.border_radius as radius
+import flet.audio as audio

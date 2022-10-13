@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 from dataclasses import dataclass
+from pathlib import Path
 from main import Sepyre
 import app
 
@@ -40,8 +41,11 @@ class Config():
             else:
                 return default
 
-    def update(self, section: str, key: str, value: str):
-        configFile = str(self.file)
+    def update(self, section: str, key: str, value: str, file: str = ''):
+        if file == '':
+            file = str(self.file)
+
+        configFile = str(file)
         parser = ConfigParser()
         parser.read(configFile)
 

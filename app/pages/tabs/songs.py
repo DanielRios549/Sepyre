@@ -22,31 +22,36 @@ class Songs():
         if folder.exists() is False:
             folder.mkdir(0o775, False, False)
 
-        for song in folder.iterdir():
-            file = song.joinpath('info.conf')
+        count = len(list(folder.iterdir()))
 
-            if file.exists() is True:
-                options = app.parser.config(f'{file}')
+        if count <= 1:
+            self.items.controls.append(app.forms.Add(self.main).show())
+        else:
+            for song in folder.iterdir():
+                file = song.joinpath('info.conf')
 
-                self.items.controls.append(
-                    Row(
-                        alignment='end',
-                        controls=[
-                            TextButton(
-                                options['info']['name'],
-                                data=song.name,
-                                on_click=self.songOpen,
-                                expand=True,
-                            ),
-                            IconButton(
-                                data=song.name,
-                                icon=icons.EDIT,
-                                content=Text(options['info']['name']),
-                                on_click=self.songRename,
-                            )
-                        ]
+                if file.exists() is True:
+                    options = app.parser.config(f'{file}')
+
+                    self.items.controls.append(
+                        Row(
+                            alignment='end',
+                            controls=[
+                                TextButton(
+                                    options['info']['name'],
+                                    data=song.name,
+                                    on_click=self.songOpen,
+                                    expand=True,
+                                ),
+                                IconButton(
+                                    data=song.name,
+                                    icon=icons.EDIT,
+                                    content=Text(options['info']['name']),
+                                    on_click=self.songRename,
+                                )
+                            ]
+                        )
                     )
-                )
 
         return self.items
 
@@ -58,7 +63,7 @@ class Songs():
         print(f'Song Rename: {event.control.data}')
 
     def showEdit(self):
-        self.items = Text("Updated")
+        self.items.controls.append(Text("Updated"))
         self.main.page.update()
 
         return self.items
